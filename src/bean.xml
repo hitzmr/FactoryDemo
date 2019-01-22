@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 配置资源 把对象的创建交给Spring管理-->
+    <!-- init-method初始化-->
+    <!-- destroy-method销毁-->
+    <bean id="CUSTOMERSERVICE" class="com.itheima.service.impl.ICustomerServiceImpl" scope="singleton" init-method="init" destroy-method="destroy"></bean>
+    <bean id="ICUSTOMERDAO" class="com.itheima.dao.impl.ICustomerDaoImpl"></bean>
+
+    <!-- 使用静态工厂创建对象 -->
+    <!-- 使用StaticFactory工厂的getICustomerService方法创建一个对象，存入容器，用id staticCustomerService 取-->
+    <bean id="staticCustomerService" class="com.itheima.factory.StaticFactory" factory-method="getICustomerService"></bean>
+
+    <!-- 使用实例工厂创建对象-->
+    <!-- 先创建一个InstanceFactory对象，存入容器，然后用这个对象中的 getICustomerService()方法创建对象-->
+    <!-- scope作用范围，有单例singleton和多例prototype可选-->
+    <bean id="instanceFactory" class="com.itheima.factory.InstanceFactory"></bean>
+    <bean id="instanceCustomerService" factory-bean="instanceFactory" factory-method="getICustomerService" scope="prototype"></bean>
+</beans>
